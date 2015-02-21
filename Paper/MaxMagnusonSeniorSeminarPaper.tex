@@ -13,9 +13,11 @@
 
 %%%%% Uncomment the following line and comment out the previous one
 %%%%% to remove all comments
+%%%%%\newcommand{\comment}[1]{}
+\newcommand{\comment}[1]{{\bf \tt  {#1}}}
 %%%%% NOTE: comments still occupy a line even if invisible;
 %%%%% Don't write them as a separate paragraph
-%\newcommand{\mycomment}[1]{}
+\newcommand{\todo}[1]{\textcolor{magenta}{\comment{todo: {#1}}}}
 
 \begin{document}
 
@@ -49,7 +51,7 @@ Max Magnuson\\
 \keywords{ACM proceedings, \LaTeX, text tagging}
 
 \section{Introduction} 
-
+\todo{Write stuff in the intro}
 \section{Background}
 
 
