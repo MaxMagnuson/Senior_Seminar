@@ -1,0 +1,123 @@
+% This is a sample document using the University of Minnesota, Morris, Computer Science
+% Senior Seminar modification of the ACM sig-alternate style. Much of this content is taken
+% directly from the ACM sample document illustrating the use of the sig-alternate class. Certain
+% parts that we never use have been removed to simplify the example, and a few additional
+% components have been added.
+
+% See https://github.com/UMM-CSci/Senior_seminar_templates for more info and to make
+% suggestions and corrections.
+
+\documentclass{sig-alternate}
+\usepackage{color}
+%\usepackage[colorinlistoftodos]{todonotes}
+
+%%%%% Uncomment the following line and comment out the previous one
+%%%%% to remove all comments
+%%%%% NOTE: comments still occupy a line even if invisible;
+%%%%% Don't write them as a separate paragraph
+%\newcommand{\mycomment}[1]{}
+
+\begin{document}
+
+% --- Author Metadata here ---
+%%% REMEMBER TO CHANGE THE SEMESTER AND YEAR
+\conferenceinfo{UMM CSci Senior Seminar Conference, May 2015}{Morris, MN}
+
+\title{Monte Carlo Tree Search and Its Applications}
+
+\numberofauthors{1}
+
+\author{
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+\alignauthor
+Max Magnuson\\
+	\affaddr{Division of Science and Mathematics}\\
+	\affaddr{University of Minnesota, Morris}\\
+	\affaddr{Morris, Minnesota, USA 56267}\\
+	\email{magnu401@morris.umn.edu}
+}
+
+\maketitle
+\begin{abstract}
+
+\end{abstract}
+
+\keywords{ACM proceedings, \LaTeX, text tagging}
+
+\section{Introduction} 
+
+\section{Background}
+
+
+\subsection{The Tree Structure}
+
+\subsection{The Four Steps of MCTS}
+
+\subsection{The Upper Confidence Bound(UCT)}
+
+\section{Using MCTS to play Go}
+
+\subsection{Variations in Their MCTS Algorithm}
+
+\subsection{Their Results}
+
+\section{Using MCTS for Narrative Generation}
+
+\subsection{Variations in Their MCTS Algorithm}
+
+\subsection{Their Results}
+
+\section{Using MCTS to play Mario}
+
+\subsection{Variations in Their MCTS Algorithm}
+
+\subsection{Their Results}
+
+\section{Conclusions}
+
+\section{Acknowledgements}
+
+\section{References}
+
+\subsection{Citations}
+Citations to articles \cite{Aaronson:2005,Garey:1979,Brun:2008} listed
+in the Bibliography section of your
+article will occur throughout the text of your article.
+You should use BibTeX to automatically produce this bibliography;
+you simply need to insert one of several citation commands with
+a key of the item cited in the proper location in
+the \texttt{.tex} file \cite{OM:2008}.
+The key is a short reference you invent to uniquely
+identify each work; in this sample document, the key is
+the first author's surname and a
+word from the title.  This identifying key is included
+with each item in the \texttt{.bib} file for your article.
+
+The details of the construction of the \texttt{.bib} file
+are beyond the scope of this sample document, but more
+information can be found in the \textit{Author's Guide},
+and exhaustive details in the \textit{\LaTeX\ User's
+Guide}.
+
+This article shows only the plainest form
+of the citation command, using \texttt{{\char'134}cite}.
+This is what is stipulated in the SIGS style specifications.
+No other citation format is endorsed or supported.
+
+% The following two commands are all you need in the
+% initial runs of your .tex file to
+% produce the bibliography for the citations in your paper.
+\bibliographystyle{abbrv}
+% sample_paper.bib is the name of the BibTex file containing the
+% bibliography entries. Note that you *don't* include the .bib ending here.
+\bibliography{sample_paper}  
+% You must have a proper ".bib" file
+%  and remember to run:
+% latex bibtex latex latex
+% to resolve all references
+
+\end{document}
