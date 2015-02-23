@@ -53,10 +53,10 @@ Max Magnuson\\
 \section{Introduction} 
 \todo{Write stuff in the intro}
 \section{Background}
-
-
+Monte carlo tree search combines the random sampling of traditional monte carlo methods with tree searching. It is important to note that monte carlo tree search is at it's best in games with perfect information. For example, a game like chess has perfect information. All of the information that is needed to play the game is encoded in the game board and pieces, and each player has access to all of that information. In contrast, a game like poker does not have perfect information. Each player does not know the contents of the other player's hands as well as the order of the deck.
 \subsection{The Tree Structure}
-
+Monte carlo tree search structures the game state and its potential moves in a tree. Each node in the tree represents the state of the game with the root node representing the current state. Each line represents a legal move that can be made from one game state to another. In other words, it represents the transformation from the parent node to the child node. Any node may have as many children as there are legal moves. For example, at the start of a game of Tic-Tac-Toe the root node may have up to nine children. One for each possible move. Each following child will only be able to have one less child than its parent because the previous moves are no longer available as options. The nodes of the tree also encode for information other than the game state, but we will get into that in the next section.
+/todo{I might want to make a graphic to help explain the tree structure with tic-tac-toe}
 \subsection{The Four Steps of MCTS}
 
 \subsection{The Upper Confidence Bound(UCT)}
