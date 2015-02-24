@@ -17,7 +17,7 @@
 \newcommand{\comment}[1]{{\bf \tt  {#1}}}
 %%%%% NOTE: comments still occupy a line even if invisible;
 %%%%% Don't write them as a separate paragraph
-\newcommand{\todo}[1]{\textcolor{magenta}{\comment{todo: {#1}}}}
+\newcommand{\todo}[1]{\textcolor{magenta}{\comment{Todo: {#1}}}}
 
 \begin{document}
 
@@ -51,13 +51,30 @@ Max Magnuson\\
 \keywords{ACM proceedings, \LaTeX, text tagging}
 
 \section{Introduction} 
-\todo{Write stuff in the intro}
+
 \section{Background}
 Monte carlo tree search combines the random sampling of traditional monte carlo methods with tree searching. It is important to note that monte carlo tree search is at it's best in games with perfect information. For example, a game like chess has perfect information. All of the information that is needed to play the game is encoded in the game board and pieces, and each player has access to all of that information. In contrast, a game like poker does not have perfect information. Each player does not know the contents of the other player's hands as well as the order of the deck.
 \subsection{The Tree Structure}
-Monte carlo tree search structures the game state and its potential moves in a tree. Each node in the tree represents the state of the game with the root node representing the current state. Each line represents a legal move that can be made from one game state to another. In other words, it represents the transformation from the parent node to the child node. Any node may have as many children as there are legal moves. For example, at the start of a game of Tic-Tac-Toe the root node may have up to nine children. One for each possible move. Each following child will only be able to have one less child than its parent because the previous moves are no longer available as options. The nodes of the tree also encode for information other than the game state, but we will get into that in the next section.
-/todo{I might want to make a graphic to help explain the tree structure with tic-tac-toe}
+Monte carlo tree search structures the game state and its potential moves in a tree. Each node in the tree represents the state of the game with the root node representing the current state. Each line represents a legal move that can be made from one game state to another. In other words, it represents the transformation from the parent node to the child node. Any node may have as many children as there are legal moves. For example, at the start of a game of Tic-Tac-Toe the root node may have up to nine children. One for each possible move. Each following child will only be able to have one less child than its parent since the previous moves are no longer available as options. The nodes of the tree also encode for information other than the game state, but we will get into that in the next section.
+
+\todo{I might want to make a graphic to help explain the tree structure with tic-tac-toe}
+
 \subsection{The Four Steps of MCTS}
+The process of monte carlo tree search is split up into four processes: Selection, Expansion, Simulation, and Backpropagation. These four processes are iteratively applied until a decision from the AI must be made.
+
+\subsubsection{Selection}
+In the selection process, the MCTS algorithm traverses the current tree looking for the next node to expand. This traversal uses an evaluation function that will prioritize nodes with the highest estimated value. This is known as a tree policy. When a leaf node is reached, it will then transition into expansion.
+
+\subsubsection{Expansion}
+In expansion a new node is added to the tree as a child of the leaf reached in the previous step. Then a simulation is played out to determine the value of the newly added node.
+
+\subsubsection{Simulation}
+In this step, a simulation is played out according to the simulation policy. The policy randomly selects moves until either an end state or a predefined threshold is reached. Then based on the result of the simulation, the value of the newly added node is established. For example, a simulation of a node for Go would reach the end of a game(the end state), and then determine a value based on whether the player won, drew, or lost.
+
+\subsubsection{Backpropagation}
+Once the value of the node is determined, then as the name of this process implies, the rest of the tree can be updated. The algorithm will traverse back to the root node only updating the values of the nodes that it passes through. Only those nodes are effected because each node's respective value is an estimation of values of the nodes after them. For example, a particular node of a tree that encodes for the game Go contains a value that estimates how likely a player is to win or lose given that line of play. In other words, a higher value means that there are more potential games in which that player will win if that move is chosen.
+
+\todo{I should probably introduce the concept of nodes encoding for values earlier in the background when I talk about the tree structure}
 
 \subsection{The Upper Confidence Bound(UCT)}
 
@@ -86,29 +103,6 @@ Monte carlo tree search structures the game state and its potential moves in a t
 \section{References}
 
 \subsection{Citations}
-Citations to articles \cite{Aaronson:2005,Garey:1979,Brun:2008} listed
-in the Bibliography section of your
-article will occur throughout the text of your article.
-You should use BibTeX to automatically produce this bibliography;
-you simply need to insert one of several citation commands with
-a key of the item cited in the proper location in
-the \texttt{.tex} file \cite{OM:2008}.
-The key is a short reference you invent to uniquely
-identify each work; in this sample document, the key is
-the first author's surname and a
-word from the title.  This identifying key is included
-with each item in the \texttt{.bib} file for your article.
-
-The details of the construction of the \texttt{.bib} file
-are beyond the scope of this sample document, but more
-information can be found in the \textit{Author's Guide},
-and exhaustive details in the \textit{\LaTeX\ User's
-Guide}.
-
-This article shows only the plainest form
-of the citation command, using \texttt{{\char'134}cite}.
-This is what is stipulated in the SIGS style specifications.
-No other citation format is endorsed or supported.
 
 % The following two commands are all you need in the
 % initial runs of your .tex file to
