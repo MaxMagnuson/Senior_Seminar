@@ -78,6 +78,13 @@ Along with the game state, each node encodes for a value that represents how fav
 \subsection{The Four Steps of MCTS}
 The process of Monte Carlo tree search is split up into four processes: Selection, Expansion, Simulation, and Backpropagation. These four processes are iteratively applied until a decision from the AI must be made.
 
+\begin{figure}[h]
+	\includegraphics[width=8cm]{MCTSFourStepProcess.jpg}
+	\centering
+	\caption{The four steps of MCTS}
+	\label{fig:FourSteps}
+\end{figure}
+
 \todo{This section still needs a lot of work}
 
 \textbf{Selection} - In the selection process, the MCTS algorithm traverses the current tree using a tree policy. A tree policy uses an evaluation function that prioritize nodes with the highest estimated value. 
