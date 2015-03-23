@@ -65,7 +65,7 @@ MCTS combines the random sampling of traditional Monte Carlo methods with tree s
 \subsection{The Tree Structure}
 MCTS structures the game state and its potential moves in a tree. Each node in the tree represents the state of the game with the root node representing the current state. Each line represents a legal move that can be made from one game state to another. In other words, it represents the transformation from the parent node to the child node. Any node may have as many children as there are legal moves. For example, at the start of a game of Tic-Tac-Toe the root node may have up to nine children. One for each possible move. Each following child can only have one less child than its parent since the previous moves are no longer available as options.
 \begin{figure}[h]
-\includegraphics[width=8cm]{TicTacToeTree.jpg}
+\includegraphics[width=8cm]{TicTacToeTree.pdf}
 \centering
 \caption{A small portion of what a tree represents}
 \label{fig:TicTacToe}
@@ -79,7 +79,7 @@ Along with the game state, each node encodes for a value that represents how fav
 The process of MCTS is split up into four processes: Selection, Expansion, Simulation, and Backpropagation. These four processes are iteratively applied until a decision from the AI must be made.
 
 \begin{figure}[h]
-	\includegraphics[width=8cm]{MCTSFourStepProcess.jpg}
+	\includegraphics[width=8.5cm]{MCTSFourStepProcess.pdf}
 	\centering
 	\caption{The four steps of MCTS}
 	\label{fig:FourSteps}
@@ -93,7 +93,7 @@ The process of MCTS is split up into four processes: Selection, Expansion, Simul
 
 \textbf{Simulation} - In this step, a simulation(also referred to as a playout or rollout) is played out according to the simulation policy\cite{ActionSelection}. The simulation may use either a weak or strong policy. A weak policy would use little to no predetermined strategy. It would simply playout the simulation randomly. A strong policy would use a more guided approach to choose the moves. A strong policy may make the simulation too deterministic or make it more prone for error\cite{TheGrandChallenge}. The policy plays out moves until either an end state or a predefined threshold is reached. Then based on the result of the simulation, the value of the newly added node is established. For example, a simulation of a node for Go would reach the end of a game(the end state), and then determine a value based on whether the player won, or lost. In \ref{fig:FourSteps} the simulation ended in a 1. Therefore, the value of the new node is 1/1.
 
-\textbf{Backpropagation} - Once the value of the node is determined, then as the name of this process implies, the rest of the tree can be updated. The algorithm will traverse back to the root node only updating the values of the nodes that it passes through. Only those nodes are effected because each node's respective value is an estimation of values of the nodes after them. In \ref{fig:FourSteps} there are two nodes that are left untouched since those do not branch into the newly added node.
+\textbf{Backpropagation} - Once the value of the node is determined, then as the name of this process implies, the rest of the tree can be updated. The algorithm will traverse back to the root node only updating the values of the nodes that it passes through. Only those nodes are effected because each node's respective value is an estimation of values of the nodes after them. In figure \ref{fig:FourSteps} there are two nodes that are left untouched since those do not branch into the newly added node.
 
 \subsection{Upper Confidence Bound Applied to Trees(UCT)}
 \todo{Get across that each unexplored node is explored before moving on, but only at each node that is visited. If a node is not visited again, that node's children will not be explored.}
@@ -116,7 +116,14 @@ The all moves as first(AMAF) approach treats all moves as the first move. That m
 The AMAF approach works in Go because many of the situations only affect what is happening locally. If a move is made elsewhere on the board, it does not really have any affect on the move being examined.
 
 \subsection{Rapid Action Value Estimate}
-Rapid action value estimate(RAVE) takes the concept of AMAF and stores the value of every move at every node in the tree. This means that each node contains the combined value of each move that has been played out in a simulation branching from that node. This is how the information must be stored for the MCTS algorithm to work because MCTS works on the assumption that each value that the node contains comes from the simulations performed at that node and the ones in the subtree of that node. This assumption must remain true since MCTS traverses the tree selecting for nodes with the greatest potential value.   
+Rapid action value estimate(RAVE) takes the concept of AMAF and stores the value of every move at every node in the tree. This means that each node contains the combined value of each move that has been played out in a simulation branching from that node. This is how the information must be stored for the MCTS algorithm to work because MCTS works on the assumption that each value that the node contains comes from the simulations performed at that node and the ones in the subtree of that node. This assumption must remain true since MCTS traverses the tree selecting for nodes with the greatest potential value.
+
+\begin{figure}[h]
+	\includegraphics[width=8cm]{RAVEDiagram.pdf}
+	\centering
+	\caption{MCTS vs RAVE}
+	\label{fig:RAVEDiagram}
+\end{figure} 
 
 The RAVE approach is very powerful and allows us to retrieve much more information out of every simulation that MCTS performs. Typically in MCTS only one piece of information would be gained by a simulation. That would be whether or not that specific node resulted in a win or a loss. Now, every move in that simulation provides the MCTS with information on the value of that move. This allows the MCTS algorithm to converge much more quickly on which move to perform next.
 
@@ -131,12 +138,12 @@ The MC RAVE approach works because the strength of the RAVE approach is that it 
 Computer programs that used more traditional approaches to playing game have had very little success playing Go. The deterministic approaches struggled to defeat even low rank amateurs. Now with new Go programs implementing MCTS, they have achieved a lot of success and the achievements are only growing. The top computer programs can now compete with top professionals in 9x9 Go\cite{RAVEinGo}. Not only that, but those programs can even compete against the top pros in handicap games of 19x19 games of Go. That is an incredible feat taking into consideration the immense complexity of a 19x19 board. Clearly, MCTS has demonstrated its impact on AI approaches to Go.
 
 \section{Using MCTS for Narrative Generation}
-MCTS has demonstrated that it has applications outside of playing board games. Kartal et al\cite{Narrative} used MCTS for narrative generation. Their algorithm uses a list of actors, items, and places and various actions that let those things interact with each other. The user then specifies the initial setup and overall goal for the story.
+MCTS has demonstrated that it has applications outside of playing board games. Kartal et al\cite{Narrative} used MCTS to generate narratives. Their algorithm uses a list of actors, items, and places along with various actions that let those things interact with each other. The user then specifies the initial setup and overall goal for the story.
 
 \subsection{Tree Representation}
-As stated previously, the nodes of the MCTS tree represents the state of the system at that node. In the narrative generation, the nodes will hold the information of what action is happening, and the current attributes of the actors. Any previous nodes will hold the information about the story that happened up to the current node's point in the story with the root node being the very first action taken in the story.
+As stated previously, the nodes of the MCTS tree represents the state of the system at that node. In narrative generation, the nodes will hold the information of what action is happening, and the current attributes of the actors. Any previous nodes will hold the information about the story that happened up to the current node's step in the narrative with the root node being the very first action taken in the narrative.
 
-The attributes of the actors are simply information that is needed to help describe the story. An actor may have an attribute of their current health, their current location, or the  current anger level of the actor. Certain actions become more likely or less likely to occur depending on these attributes.
+The attributes of the actors are simply information that is needed to help describe the story. An actor may have attributes that describe their name, their current health, their current location, or the  current anger level of the actor. Certain actions become more likely or less likely to occur depending on these attributes.
 
 \begin{itemize}
 \item \textbf{Move(A, P):} A moves to place P.
@@ -144,22 +151,23 @@ The attributes of the actors are simply information that is needed to help descr
 \item \textbf{Earthquake(P):} An earthquake strikes at place P. This causes people at P to die (health=0), items to be stuck, and place P to collapse.
 \end{itemize}
 
-Here is a small sample of possible actions that may occur in a story. It would not make much sense if actor A killed actor B if actor B did not interact with actor A. Although if actor A's anger is sufficiently high enough, it may make it more believable for this action to occur\cite{Narrative}.
+Here is a small sample of possible actions that may occur in a story. It would not make much sense if actor A killed actor B if actor B did not interact with actor A. Although if actor A's anger is sufficiently high, it may make it more believable for this action to occur\cite{Narrative}.
 
 \subsection{Narrative Simulation}
-In Go, the simulation step of MCTS would end in either a win or a loss, but that approach does not really apply to narrative generation. Instead the authors chose to establish a threshold for their simulation policy. When the story in the simulation reaches a certain length, or if the story accomplishes a predefined amount of the goals outlined by the user, the simulation with then stop.
+\todo{I should make clear the two different heuristic methods they introduced, so it is easier to contrast them in the results}
+In Go, the simulation step of MCTS would end in either a win or a loss, but that approach does not really apply to narrative generation. Instead the authors chose to establish a threshold for their simulation policy. When the story in the simulation reaches a certain length, or if the story accomplishes a predefined amount of the goals outlined by the user, the simulation with then stop and be evaluated.
 
 To establish a value for the simulation, the authors developed a believability function. The believability function evaluates the simulation based on how believable the narrative is, and how many goals the narrative accomplished. The believability is based on the order in which the actions occur and how likely they are to occur given prior events.
 
-The believability functions strikes a balance between goal completion and believability because it would not make for a good narrative without either. A narrative could easily complete the goals laid out without being very believable, and a narrative could be very believable while not accomplishing any of the goals. Sometimes this results in one being sacrificed for the other. For example, maybe a long series of actions that are not the most believable are used for the sake of completing the goals of the narrative. While this outcome is not perfect, it is preferable over the two extremes.
+The believability functions strikes a balance between goal completion and believability because it would not make for a good narrative without either. A narrative could easily complete the goals laid out by the user without being very believable, and a narrative could be very believable while not accomplishing any of the goals. Sometimes this results in one being sacrificed for the other. For example, maybe a long series of actions that are not the most believable are used for the sake of completing the goals of the narrative. While this outcome is not perfect, it is preferable over the two extremes.
 
-In the simulation process the authors decided to use a guided approach. Their algorithm has a table that keeps track of various actions that have occurred in the simulations and their respective evaluation score. They use these scores to bias the random sampling in the simulations towards actions with higher scores. 
+In the simulation process the authors decided to use a guided approach. Their algorithm uses a table that keeps track of various actions that have occurred in the simulations and their respective average evaluation score. The algorithm uses these scores to bias the random sampling in the simulations in favor of actions that have produced higher evaluation scores in the past. 
 \subsection{Tree Pruning}
-The trees for MCTS can get very memory intensive, so the authors decided to implement tree pruning into their algorithm to essentially allow for the algorithm to use the memory more efficiently. In tree pruning, an algorithm will selectively cut out pieces of the tree that do not seem very promising. 
+The trees for MCTS can get very memory intensive, so the authors decided to implement tree pruning into their algorithm to essentially allow for the algorithm to use the memory it is allocated more efficiently. In tree pruning, an algorithm will selectively cut out pieces of the tree that do not seem very promising.  
 
-In the authors' implementation, they decided to plan out the story one step at a time. To accomplish this, they allow the tree to expand for a fixed number of iterations. Then, after those iterations, the next step is selected. All other steps are discarded, and then the process repeats. This process allows for the algorithm to much more efficiently use the memory it is allocated.
+The authors implemented tree pruning by only allowing the algorithm to plan out the narrative one step at a time. When the next step is being selected, the algorithm will run for a predefined number of iterations. After those iterations have been run, the algorithm will choose the node with the greatest potential value that is a child of the current root node. The chosen node effectively becomes the new root node of the tree while keeping track of the steps that preceded it. When the new node is chosen, all other children from the previous node are discarded. The memory that those nodes were allocated can now be used for future simulations. This process allows for the algorithm to much more efficiently use the memory it is allocated.
 
-The authors do make note that this approach makes the algorithm no longer probabilistically complete. This means that it is possible that one of the branches that is pruned would be preferable to the current path. The current path may just be a local maxima instead of the preferred global optimum. Even with this flaw, the authors still found their approach to perform reasonably well. 
+The authors do make note that this approach makes the algorithm no longer probabilistically complete. This means that it is possible that one of the branches that is pruned would be preferable to the current path. The current path may just be a local maxima instead of the preferred global optimum. Even with this flaw, the authors still found their algorithm to perform reasonably well. 
 
 \subsection{Their Results}
 The authors compared their results to three different tree search approaches: Breadth-First Search, Depth-First Search, and Best-First Search\cite{Narrative}. Each of these algorithms should provide the optimal solution if given enough time and memory. Depth-First Search and Best-First search in particular are capable of finding the solution very early on in the search.
@@ -168,7 +176,7 @@ They compared these four algorithms allowing them two different amounts of nodes
 
 In the first comparison, the only algorithm that came close to MCTS was the Breadth-First Search algorithm. Bread-First Search scored on average over three trials of .05, while the MCTS scored a .07. The other two algorithms scored below .01. When the algorithms were allocated 3 million nodes, MCTS far and away outperformed the other algorithms. MCTS scored .09 while the others didn't even get up to .01.
 
-\todo{Talk about comparison of Authors' implementation of MCTS to traditional MCTS}
+The authors compared their playout biasing approach to a MCTS algorithm without it. They found that given a low budget of nodes, the typical MCTS algorithm outperformed their biased approach. Alternatively, they found that when the algorithms were allowed a large number of nodes, the biased approach far outperformed the typical MCTS approach. The authors also compared their tree pruning approach to a typical MCTS algorithm. They found that the typical MCTS algorithm would quickly run out of memory when given a large number of actors, items, and places. The tree pruning approach used memory much more efficiently and found much higher scoring stories than the typical MCTS algorithm.
 
 \section{Using MCTS to play Mario}
 
