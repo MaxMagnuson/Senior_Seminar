@@ -111,9 +111,18 @@ When traversing the tree, Equation \ref{UCTequation} is applied to each of a nod
 MCTS has seen a lot of success in its applications in Go. The computer Go programs MoGo and Crazy Stone both use MCTS, and they have had the best performance of any computer Go programs\cite{RAVEinGo}. Those programs use the traditional MCTS algorithm with the UCT approach, and they apply their own variations specifically in the context of Go.
 
 \subsection{All Moves as First(AMAF)}
-The all moves as first(AMAF) approach treats all moves as the first move. That means that AMAF does not care about any move in relation to any other move. Moves have no context in which they are played. The value of a move is determined by the end values of the subtrees in which that move was played. For example, move a is made five times within a given subtree. Move a being played first from the current node resulted in two losses, but move a was played in three other parts of the subtree that ended in a win. Therefore, the overall value of a would be 3/5, and this value would be treated as if a were the next move played. So if a's value of 3/5 is greater than any other move, a would be selected as the next move action.
+The all moves as first(AMAF) is a methodology that treats all moves as the next move to be made. That means that AMAF does not take into account the order in which moves are played. Moves have no context in this methodology. This methodology is quite useful when either moves played elsewhere do not have an effect on the value of a move, or if a game can arrive at the same state regardless of the order in which the moves are played.
 
-The AMAF approach works in Go because many of the situations only affect what is happening locally. If a move is made elsewhere on the board, it does not really have any affect on the move being examined.
+\begin{figure}[h]
+	\includegraphics[width=8cm]{MoveOrderNotMattering.pdf}
+	\centering
+	\caption{Comparison of two sequences of moves in TicTacToe}
+	\label{fig:TwoSeq}
+\end{figure}
+
+In figure \ref{fig:TwoSeq} are two possible sequences of moves that can be played out in the game TicTacToe. Even though the order in which moves A and C are played are different, it still results in the same game state after either move are played. AMAF would be useful in analyzing the effectiveness of this situation since the order in which the moves are played has no affect strategically. Thus, we can treat playing move A first or move C first as having the same strategic value.
+
+The AMAF methodology is applicable to Go because many of the situations only affect what is happening locally. If a move is made elsewhere on the board, it does not have much of an affect on the strategic value of the move being examined. It is also important to note that in Go a move that repeats a board state is illegal. Therefore, this methodology will not have any inconsistencies with replaying the same move.
 
 \subsection{Rapid Action Value Estimate}
 Rapid action value estimate(RAVE) takes the concept of AMAF and stores the value of every move at every node in the tree. This means that each node contains the combined value of each move that has been played out in a simulation branching from that node. This is how the information must be stored for the MCTS algorithm to work because MCTS works on the assumption that each value that the node contains comes from the simulations performed at that node and the ones in the subtree of that node. This assumption must remain true since MCTS traverses the tree selecting for nodes with the greatest potential value.
@@ -155,7 +164,7 @@ Here is a small sample of possible actions that may occur in a story. It would n
 
 \subsection{Narrative Simulation}
 \todo{I should make clear the two different heuristic methods they introduced, so it is easier to contrast them in the results}
-In Go, the simulation step of MCTS would end in either a win or a loss, but that approach does not really apply to narrative generation. Instead the authors chose to establish a threshold for their simulation policy. When the story in the simulation reaches a certain length, or if the story accomplishes a predefined amount of the goals outlined by the user, the simulation with then stop and be evaluated.
+In Go, the simulation step of MCTS would end in either a win or a loss, but that approach does not really apply to narrative generation. Instead the authors chose to establish a threshold for their simulation policy. When the story in the simulation reaches a certain length, or if the story accomplishes a predefined amount of the goals outlined by the user, the simulation will then stop and be evaluated.
 
 To establish a value for the simulation, the authors developed a believability function. The believability function evaluates the simulation based on how believable the narrative is, and how many goals the narrative accomplished. The believability is based on the order in which the actions occur and how likely they are to occur given prior events.
 
