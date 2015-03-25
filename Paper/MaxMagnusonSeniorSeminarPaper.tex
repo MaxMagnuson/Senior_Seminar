@@ -61,9 +61,10 @@ People have started turning to alternative methods to approach Go. One such meth
 
 MCTS has been growing in popularity in recent years, and it demonstrates a lot of promise. In this paper we will be examining MCTS and a few of its applications.  
 \section{Background}
-MCTS combines the random sampling of traditional Monte Carlo methods with tree searching. The random sampling is used to construct a game tree. This tree will be traversed based on statistical processes, and the MCTS method relies on the convergence of the tree to reliably choose the best move. MCTS is a heuristic method and as such it will not always find the most optimal move, but it has a reasonably high success of choosing moves that will lead to greater chances of winning.
+MCTS combines the random sampling of traditional Monte Carlo methods with tree searching. Monte Carlo methods use repeated random sampling to obtain results. The random sampling is used to construct a game tree. This tree will be traversed based on statistical processes, and the MCTS method relies on the convergence of the traversal to reliably choose the best move. The traversal is in convergence when the traversal selects the same path on each traversal. MCTS is a heuristic method and as such it will not always find the most optimal move, but it has a reasonably high success of choosing moves that will lead to greater chances of winning.
 \subsection{The Tree Structure}
-MCTS structures the game state and its potential moves in a tree. Each node in the tree represents the state of the game with the root node representing the current state. Each line represents a legal move that can be made from one game state to another. In other words, it represents the transformation from the parent node to the child node. Any node may have as many children as there are legal moves. For example, at the start of a game of Tic-Tac-Toe the root node may have up to nine children. One for each possible move. Each following child can only have one less child than its parent since the previous moves are no longer available as options.
+MCTS structures the game state and its potential moves in a tree. Each node in the tree represents the state of the game with the root node representing the current state. Each line represents a legal move that can be made from one game state to another. In other words, it represents the transformation from the parent node to the child node. Any node may have as many children as there are legal moves. For example, at the start of a game of Tic-Tac-Toe the root node may have up to nine children, one for each possible move. Each following child can only have one less child than its parent since the previous moves are no longer available as options.
+
 \begin{figure}[h]
 \includegraphics[width=8cm]{TicTacToeTree.pdf}
 \centering
@@ -71,9 +72,9 @@ MCTS structures the game state and its potential moves in a tree. Each node in t
 \label{fig:TicTacToe}
 \end{figure}
 
-Figure \ref{fig:TicTacToe} represents the top portion of a tree for the game Tic-Tac-Toe. The AI is making the first move, so the source node is the first game board. Each child node represents the potential moves that can be made from the current game state. It is important to note here that those are only three of the potential nine child nodes.\todo{This somewhat contradicts what I say later on in the paper about UCT} MCTS does not have to look at every potential child node, nor will it want to for sake of efficiency. Once MCTS has decided which move to make, the source node of the tree will then become the child it chose. For example, if MCTS chose the left child in figure \ref{fig:TicTacToe}, then the new MCTS tree would start at that child and everything else that was branching off of the original parent node is discarded.
+Figure \ref{fig:TicTacToe} represents the top portion of a tree for the game Tic-Tac-Toe. The AI is making the first move, so the source node is the first game board. Each child node represents the potential moves that can be made from the current game state. It is important to note here that those are only three of the potential nine child nodes. In the naive implementation of MCTS, each potential child node must be added to the tree before any of those child nodes can be traversed. Other variations of the MCTS algorithm have ways of avoiding this requirement\cite{ActionSelection}. Once MCTS has decided which move to make, the source node of the tree will then become the child it chose. For example, if MCTS chose the left child in figure \ref{fig:TicTacToe}, then the new MCTS tree would start at that child and discard every other child node. 
 
-Along with the game state, each node encodes for a value that represents how favorable choosing a particular node is. This value comes from the respective values of the nodes that branch off of it. In the example of Tic-Tac-Toe we could assign any simulation at a node that ends in a loss a zero, and any simulation that ends in a win a one. When any of these values are discovered, then the rest of the tree that branches into that node can be updated with its value. So in this case, choosing the node with the greatest value, leads to a path with the greatest ratio of wins to losses. By doing this, it gives the AI the greatest chance of choosing a winning outcome. This is what the MCTS algorithm relies on to be effective.
+Along with the game state, each node contains a value that gives an estimate of wins compared to total games in that subtree. The higher the value, the greater proportion of wins in that subtree. The lower the value, the smaller the proportion of wins in that subtree. By choosing the node with the greatest estimated value, the MCTS is choosing the path with the most number of wins. This means that MCTS is maximizing the number of winning moves it can select. This is what MCTS relies on to be effective.
 
 \subsection{The Four Steps of MCTS}
 The process of MCTS is split up into four processes: Selection, Expansion, Simulation, and Backpropagation. These four processes are iteratively applied until a decision from the AI must be made.
@@ -86,10 +87,11 @@ The process of MCTS is split up into four processes: Selection, Expansion, Simul
 \end{figure}
 
 \todo{This section still needs a lot of work}
+\todo{Explain what the numbers represent earlier}
 
-\textbf{Selection} - In the selection process, the MCTS algorithm traverses the current tree using a tree policy. A tree policy uses an evaluation function that prioritize nodes with the highest estimated value. In \ref{fig:FourSteps} the MCTS algorithm traverses to the 2/3 node then the 1/1 because those are the nodes with the greatest estimated value.
+\textbf{Selection} - In the selection process, the MCTS algorithm traverses the current tree using a tree policy. A tree policy uses an evaluation function that prioritize nodes with the highest estimated value. In figure \ref{fig:FourSteps} the MCTS algorithm traverses to the 2/3 node then the 1/1 because those are the nodes with the greatest estimated value.
 
-\textbf{Expansion} - In expansion a new node is added to the tree as a child of the node reached in the previous step. There is only one node added to the tree in each iteration, and it is at this step. In \ref{fig:FourSteps} the newly added node is indicated by the ?.
+\textbf{Expansion} - In expansion a new node is added to the tree as a child of the node reached in the previous step. There is only one node added to the tree in each iteration, and it is at this step. In figure \ref{fig:FourSteps} the newly added node is indicated by the ?.
 
 \textbf{Simulation} - In this step, a simulation(also referred to as a playout or rollout) is played out according to the simulation policy\cite{ActionSelection}. The simulation may use either a weak or strong policy. A weak policy would use little to no predetermined strategy. It would simply playout the simulation randomly. A strong policy would use a more guided approach to choose the moves. A strong policy may make the simulation too deterministic or make it more prone for error\cite{TheGrandChallenge}. The policy plays out moves until either an end state or a predefined threshold is reached. Then based on the result of the simulation, the value of the newly added node is established. For example, a simulation of a node for Go would reach the end of a game(the end state), and then determine a value based on whether the player won, or lost. In \ref{fig:FourSteps} the simulation ended in a 1. Therefore, the value of the new node is 1/1.
 
@@ -120,7 +122,7 @@ The all moves as first(AMAF) is a methodology that treats all moves as the next 
 	\label{fig:TwoSeq}
 \end{figure}
 
-In figure \ref{fig:TwoSeq} are two possible sequences of moves that can be played out in the game TicTacToe. Even though the order in which moves A and C are played are different, it still results in the same game state after either move are played. AMAF would be useful in analyzing the effectiveness of this situation since the order in which the moves are played has no affect strategically. Thus, we can treat playing move A first or move C first as having the same strategic value.
+In figure \ref{fig:TwoSeq} are two possible sequences of moves that can be played out in the game TicTacToe. Even though the order in which moves A and C are played are different, it still results in the same game state. AMAF is useful in analyzing the effectiveness of this situation since the order in which the moves are played has no effect strategically. Thus, we can treat playing move A first or move C first as having the same strategic value.
 
 The AMAF methodology is applicable to Go because many of the situations only affect what is happening locally. If a move is made elsewhere on the board, it does not have much of an affect on the strategic value of the move being examined. It is also important to note that in Go a move that repeats a board state is illegal. Therefore, this methodology will not have any inconsistencies with replaying the same move.
 
@@ -143,7 +145,7 @@ MC RAVE combines the traditional MCTS algorithm and the RAVE approach into one a
 
 The MC RAVE approach works because the strength of the RAVE approach is that it provides a lot of information and converges quickly with relatively few simulations. The MCTS approach is given more weight as more simulations are performed because it gives a much more accurate estimation of the contextual dependencies, but it requires more simulations than RAVE.
 
-\subsection{Their Results}
+\subsection{Results}
 Computer programs that used more traditional approaches to playing game have had very little success playing Go. The deterministic approaches struggled to defeat even low rank amateurs. Now with new Go programs implementing MCTS, they have achieved a lot of success and the achievements are only growing. The top computer programs can now compete with top professionals in 9x9 Go\cite{RAVEinGo}. Not only that, but those programs can even compete against the top pros in handicap games of 19x19 games of Go. That is an incredible feat taking into consideration the immense complexity of a 19x19 board. Clearly, MCTS has demonstrated its impact on AI approaches to Go.
 
 \section{Using MCTS for Narrative Generation}
@@ -178,7 +180,7 @@ The authors implemented tree pruning by only allowing the algorithm to plan out 
 
 The authors do make note that this approach makes the algorithm no longer probabilistically complete. This means that it is possible that one of the branches that is pruned would be preferable to the current path. The current path may just be a local maxima instead of the preferred global optimum. Even with this flaw, the authors still found their algorithm to perform reasonably well. 
 
-\subsection{Their Results}
+\subsection{Results}
 The authors compared their results to three different tree search approaches: Breadth-First Search, Depth-First Search, and Best-First Search\cite{Narrative}. Each of these algorithms should provide the optimal solution if given enough time and memory. Depth-First Search and Best-First search in particular are capable of finding the solution very early on in the search.
 
 They compared these four algorithms allowing them two different amounts of nodes. The first comparison allowed the algorithms up to 100 thousand nodes, and the second comparison allowed the algorithms up to 3 million nodes. They are then compared on the score each one achieved from the believability function.
@@ -186,12 +188,6 @@ They compared these four algorithms allowing them two different amounts of nodes
 In the first comparison, the only algorithm that came close to MCTS was the Breadth-First Search algorithm. Bread-First Search scored on average over three trials of .05, while the MCTS scored a .07. The other two algorithms scored below .01. When the algorithms were allocated 3 million nodes, MCTS far and away outperformed the other algorithms. MCTS scored .09 while the others didn't even get up to .01.
 
 The authors compared their playout biasing approach to a MCTS algorithm without it. They found that given a low budget of nodes, the typical MCTS algorithm outperformed their biased approach. Alternatively, they found that when the algorithms were allowed a large number of nodes, the biased approach far outperformed the typical MCTS approach. The authors also compared their tree pruning approach to a typical MCTS algorithm. They found that the typical MCTS algorithm would quickly run out of memory when given a large number of actors, items, and places. The tree pruning approach used memory much more efficiently and found much higher scoring stories than the typical MCTS algorithm.
-
-\section{Using MCTS to play Mario}
-
-\subsection{Variations in Their MCTS Algorithm}
-
-\subsection{Their Results}
 
 \section{Conclusions}
 
