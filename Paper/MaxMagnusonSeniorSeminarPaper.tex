@@ -62,7 +62,7 @@ People have started turning to alternative methods to approach Go. One such meth
 MCTS has been growing in popularity in recent years, and it demonstrates a lot of promise. In this paper we will be examining MCTS and a few of its applications.  
 \section{Background}
 MCTS combines the random sampling of traditional Monte Carlo methods with tree searching. Monte Carlo methods use repeated random sampling to obtain results. The random sampling is used to construct a game tree. This tree will be traversed based on statistical processes, and the MCTS method relies on the convergence of the traversal to reliably choose the best move. The traversal is in convergence when the traversal selects the same path on each traversal. MCTS is a heuristic method and as such it will not always find the optimal move, but it has a reasonably high success of choosing moves that will lead to greater chances of winning.
-\subsection{The Tree Structure}
+\subsection{The Tree Structure}\label{sec:TreeStructure}
 MCTS structures the game state and its potential moves in a tree. Each node in the tree represents the state of the game with the root node representing the current state. Each line represents a legal move that can be made from one game state to another. In other words, it represents the transformation from the parent node to the child node. Any node may have as many children as there are legal moves. For example, at the start of a game of Tic-Tac-Toe the root node may have up to nine children, one for each possible move. Each following child can only have one less child than its parent since the previous moves are no longer available as options.
 
 \begin{figure}[h]
@@ -98,7 +98,7 @@ In the simulation process, moves are played out according to the simulation poli
 
 \textbf{Backpropagation} - Now that the value of the newly added node has been determined, the rest of the tree must be updated. Starting at the new node, the algorithm traverses back to the root node. During the traversal the number of simulations stored in each node is incremented, and if the new node's simulation resulted in a win then the number of wins is also incremented. In figure \ref{fig:FourSteps} only the nodes with values 0/1 are not updated since they are not a parent of the newly added node. This step is very important because it ensures that the values of each node accurately reflect simulations performed in the subtrees that they represent.
 
-\subsection{Upper Confidence Bound Applied to Trees(UCT)}
+\subsection{Upper Confidence Bound}
 
 The upper confidence bound applied to trees(UCT) is used by MCTS as the tree policy in the selection step to traverse the tree. UCT balances the idea of exploration versus exploitation. The exploration approach promotes exploring unexplored areas of the tree. This means that exploration will expand the tree's breadth more than its depth. While this approach is useful to ensure that MCTS is not overlooking any potentially better paths, it can become very inefficient very quickly in games with a large number of moves. To help avoid that, it is balanced out with the exploitation approach. Exploitation will tend to stick to one path that has the greatest estimated value. This approach is greedy and will extend the tree's depth more than its breadth. UCT balances exploration and exploitation by giving relatively unexplored nodes an exploration bonus.  
 
@@ -150,26 +150,30 @@ MC RAVE combines the naive MCTS algorithm and the RAVE approach into one algorit
 
 \todo{I might want to step through the MCTS vs RAVE diagram traversal using MC RAVE here}
 
-The MC RAVE approach works well because it combines the strength of RAVE with the consistency of MCTS. Both approaches balance each other out well, and they work well in combination. \todo{Add a little more}
-
 \subsection{Results}
 AI that use more traditional approaches to playing games have had very little success playing Go. The deterministic approaches struggle to defeat even low rank amateurs. Now with new Go programs implementing MCTS with RAVE, they have achieved a lot of success and the achievements are only growing in number. The top computer programs can now compete with top professionals in 9x9 Go\cite{RAVEinGo}. Not only that, but those programs can even compete against the top pros in handicap games of 19x19 Go. Handicap games let one player start with some number of pieces on the board. That is an incredible feat taking into consideration the immense complexity of a 19x19 board. Clearly, MCTS has demonstrated its impact on AI approaches to Go.
 
 \section{Using MCTS for Narrative Generation}
-MCTS has demonstrated that it has applications outside of playing board games. Kartal et al\cite{Narrative} used MCTS to generate narratives. Their algorithm uses a list of actors, items, and places along with various actions that let those things interact with each other. The user then specifies the initial setup and overall goal for the story.
+Automated narrative generation is an interesting problem with many applications. One such application is in video games. Narrative generation provides the user with a unique experience on each playthrough which can extend the amount of enjoyment a user can receive from a single game. Another application for narrative generation is as a learning tool. Generating an endless number of fun and interesting stories provides plenty of material for reading practice. These are only two examples, but there are many more.
 
-\subsection{Tree Representation}
-As stated previously, the nodes of the MCTS tree represents the state of the system at that node. In narrative generation, the nodes will hold the information of what action is happening, and the current attributes of the actors. Any previous nodes will hold the information about the story that happened up to the current node's step in the narrative with the root node being the very first action taken in the narrative.
+Kartal et al\cite{Narrative} decided to apply MCTS to narrative generation. MCTS is a promising approach to narrative generation because as with Go it shares the same problem of expansive search spaces. With each additional character, item, location, or action, the number of possible narratives grows exponentially. Given the success in Go, with its huge search spaces, it makes sense to apply MCTS to narrative generation.
 
-The attributes of the actors are simply information that is needed to help describe the story. An actor may have attributes that describe their name, their current health, their current location, or the  current anger level of the actor. Certain actions become more likely or less likely to occur depending on these attributes.
-
+The researchers' algorithm uses various predefined actors(or characters), items, locations, and actions to generate a narrative. Actions are what are used to have actors, items, and locations interact with one another. Here are a few possible actions:
 \begin{itemize}
 \item \textbf{Move(A, P):} A moves to place P.
 \item \textbf{Kill(A, B):} B's health to zero(dead).
 \item \textbf{Earthquake(P):} An earthquake strikes at place P. This causes people at P to die (health=0), items to be stuck, and place P to collapse.
 \end{itemize}
+Each action has a name and in the parentheses are the actors, items, or places used by the action. The action move takes a character A and moves them to place P. Actions are important because they are what progress the story. 
 
-Here is a small sample of possible actions that may occur in a story. It would not make much sense if actor A killed actor B if actor B did not interact with actor A. Although if actor A's anger is sufficiently high, it may make it more believable for this action to occur\cite{Narrative}.
+In the researchers algorithm, the user does not provide any of the actions used by the algorithm. However, the user defines the initial setup and goals for the narrative. An initial setup indicates where actors or items are located. The inspector is in his office, or the lamp is at Becky's house. The narrative goals are what the user wishes to occur in the story. Perhaps the user would like there to be at least two murders and for the murderer to be captured. Given this information, the algorithm will attempt to generate a believable narrative that satisfies the goals set by the user.
+
+\subsection{Tree Representation}
+As stated in section \ref{sec:TreeStructure}, the nodes of the MCTS tree represent the current state of the system. In narrative generation, it is a little different. Each node only represents a specific step of the story instead of capturing the entirety of the narrative up to that point. In order to retrieve the current narrative up to that node, we would need to traverse up the tree all the way to the root node. This structuring is similar to the MCTS tree for Go in that to know the sequence of moves leading up to a node, we would need to traverse back to the root. A node by itself does not provide us with the order in which moves are played, only the current state of the game.
+
+In addition to encoding for an action, each node also keeps track of various attributes. Attributes are characteristics of an actor that help keep track of the current state of the story. An attribute of an actor might be that actors current health. The health of an actor may go down if attacked. Another example of an attribute is the location of an actor. It would not make much sense if an actor traveled to a location that they are already at which would be possible if the location of the character is not stored.
+
+\subsection{Believability Function}
 
 \subsection{Narrative Simulation}
 \todo{I should make clear the two different heuristic methods they introduced, so it is easier to contrast them in the results}
@@ -199,10 +203,6 @@ The authors compared their playout biasing approach to a MCTS algorithm without 
 \section{Conclusions}
 
 \section{Acknowledgements}
-
-\section{References}
-
-\subsection{Citations}
 
 % The following two commands are all you need in the
 % initial runs of your .tex file to
