@@ -94,7 +94,7 @@ In figure \ref{fig:FourSteps} the first number in each node represents the numbe
 
 \textbf{Expansion} - In the expansion step, a new node is added to the tree as a child of the node reached in the selection step. The algorithm is currently at the 1/1 node, so there is a child node added onto that node indicated by the node with the ?. There is only one node added to the tree in each iteration, and it is at this step.
 
-\textbf{Simulation} - In this step, a simulation(also referred to as a playout or rollout) is performed by choosing moves until either an end state or a predefined threshold is reached. In the case of Go or TicTacToe, an end state is reached when the game ends. Then based on the result of the simulation, the value of the newly added node is established. For example, a simulation for a node in Go reaches the end of a game(the end state), and then determines a value based on whether the player won or lost. In figure \ref{fig:FourSteps} the simulation ended in a 1. Therefore, the value of the new node is 1/1. One simulation resulted in a win, and one simulation has been performed.
+\textbf{Simulation} - In this step, a simulation (also referred to as a playout or rollout) is performed by choosing moves until either an end state or a predefined threshold is reached. In the case of Go or TicTacToe, an end state is reached when the game ends. Then based on the result of the simulation, the value of the newly added node is established. For example, a simulation for a node in Go reaches the end of a game(the end state), and then determines a value based on whether the player won or lost. In figure \ref{fig:FourSteps} the simulation ended in a 1. Therefore, the value of the new node is 1/1. One simulation resulted in a win, and one simulation has been performed.
 
 In the simulation process, moves are played out according to the simulation policy~\cite{ActionSelection}. This policy may be either weak or strong. A weak policy uses little to no predetermined strategy. It chooses moves randomly from either a subset of the legal moves or from all of the legal moves. A policy may prefer a certain subsection of moves because those moves might be more favorable. Perhaps in the game of TicTacToe the corners are considered to be more favorable. We incorporate this into a simulation policy by having the algorithm randomly choose corner moves until there are no more corner moves left. Then the policy will choose moves at random from the rest of the legal moves. A strong policy uses a more guided approach to choosing moves. A strong policy may make the simulation too deterministic or make it more prone to error~\cite{TheGrandChallenge}, so a weak policy is generally preferred. 
 
@@ -202,11 +202,31 @@ The authors do note that this approach makes the algorithm no longer probabilist
 \subsection{Results}
 The authors compared their implementation of the MCTS algorithm to three different deterministic tree search algorithms: Breadth-First Search, Depth-First Search, and Best-First Search~\cite{Narrative}. Each of these algorithms should provide the optimal solution if given enough time and memory. Depth-First Search and Best-First search in particular have the opportunity of finding the solution very early on in the search.
 
-These four algorithms were compared given a low budget of 100 thousand nodes and a high budget of three million nodes. The predefined user goal was to have at least two actors killed, and for the murderer to be arrested. Each of the algorithms were run a total of three times for each budget. Each of the three narratives returned were evaluated and averaged with scores ranging from 0 to 1. Then the resulting values were compared. 
+These four algorithms were compared given a low budget of 100 thousand nodes and a high budget of three million nodes. The predefined user goal was to have at least two actors killed, and for the murderer to be arrested. Each of the algorithms were run a total of three times for each budget. Each of the three narratives returned were evaluated and averaged with scores ranging from 0 to 1. Then the resulting values were compared.
+
+\begin{table}[h]
+	\begin{tabular}{ c | c | c | c | c |}
+	\cline{2-5}	 
+	 & MCTS & BreadthFirst & DepthFirst & BestFirst \\ \hline
+	\multicolumn{1}{|p{1.05cm}|}{Low Budget} & 0.07 & 0.05 & >0.001 & 0.005 \\ \hline
+	\multicolumn{1}{|p{1.05cm}|}{High Budget} & 0.9 & 0.06 & >0.01 & >0.01 \\ \hline
+	\end{tabular}
+	\caption[Table caption text]{average scores of the narratives from the different algorithms}
+\end{table}
 
 When given a low budget, the only algorithm that came close to MCTS, was the Breadth-First Search algorithm. Bread-First Search scored a value of 0.05, while MCTS scored a 0.07. The other two algorithms scored below 0.01. When given the high budget of three million nodes, MCTS far and away outperformed the other algorithms. MCTS scored 0.9 while the others did not even reach 0.01~\cite{Narrative}.
 
+\begin{tabular}{|p{8cm}|}
+\hline
+Alice picked up a vase from her house. Bob picked up a rifle from his house. Bob went to Alice's house. While there, greed got the better of him and Bob stole Alice's vase! This made Alice furious. Alice pilfered Bob's vase! This made Bob furious. Bob slayed Alice with a rifle! Bob fled to downtown. Bob executed Inspector Lestrade with a rifle! Charlie took a baseball bat from Bob's house. Sherlock went to Alice's house. Sherlock searched Alice's house and found a clue about the recent crime. Bob fled to Alice's house. Sherlock wrestled the rifle from Bob! This made Bob furious. Sherlock performed a citizen's arrest of Bob with his rifle and took Bob to jail. \\ \hline
+\end{tabular}
+
 The authors found that the Depth-First search failed to meet any of the goals of the narrative. The Best-First search attempted to complete the user defined goals while only using believable actions, but it used up its allocated memory in trying to do so. Breadth-First search performed the best of the three deterministic algorithms, but its actions tended to not be very believable in accomplishing goals.
+
+\begin{tabular}{|p{8cm}|}
+\hline
+Sherlock moved to Alice's House. An Earthquake occurred at Alice's House! Sherlock and Alice both died due to the earthquake. \\ \hline
+\end{tabular}
 
 The authors also compared their two different search heuristics. One algorithm used the selection biasing heuristic. The second algorithm used the rollout biasing heuristic, and the third algorithm used neither. The three were compared using the same conditions as before. Given a low budget, the MCTS algorithm with selection biasing outperformed the other two algorithms. Given a high budget, the selection biasing algorithm found a local minima and could not outperform the MCTS algorithm without either biasing. The rollout biasing algorithm did show quite the improvement over the traditional MCTS algorithm by doubling its value to 0.45.
 
