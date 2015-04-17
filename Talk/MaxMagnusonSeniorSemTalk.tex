@@ -50,13 +50,13 @@
 
 % Delete this, if you do not want the table of contents to pop up at
 % the beginning of each subsection:
-\AtBeginSection[]
-{
-  \begin{frame}<beamer>
-    \frametitle{Outline}
-    \tableofcontents
-  \end{frame}
-}
+
+%{
+%  \begin{frame}<beamer>
+%    \frametitle{Outline}
+%    \tableofcontents
+%  \end{frame}
+%}
 
 \begin{document}
 
@@ -73,7 +73,7 @@
 \section{Introduction}
 
 \begin{frame}
-\frametitle{Monte Carlo Tree Search(MCTS)}
+\frametitle{Monte Carlo Tree Search (MCTS)}
 %cite british Go organisation http://www.britgo.org/learners/chessgo.html
 \begin{itemize}
 	\item AI algorithm
@@ -91,21 +91,348 @@
 
 \section{Background}
 
-\begin{frame}
+\begin{frame}[fragile]
+\frametitle{TicTacToe Diagram}
+\begin{figure}[h]
+	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/TicTacToeTreeOne.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{TicTacToe Diagram}
+\begin{figure}[h]
+	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/TicTacToeTreeTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{TicTacToe Diagram}
+\begin{figure}[h]
+	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/TicTacToeTreeThree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{TicTacToe Diagram More Levels}
+\begin{figure}[h]
+	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/TicTacToeTreeMultiLevel.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{TicTacToeDiagram}
+\begin{figure}[h]
+	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/TicTacToeTreeExtended.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{TicTacToeDiagram}
+\begin{figure}[h]
+	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/TicTacToeTreeExtendedLabeled.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
 \frametitle{Tree Structure}
-What the nodes encode
-\begin{itemize}
-	\item intermediate state of the game
-	\item estimated strategic value
-	\item source node is the current game state
-\end{itemize}
-Edges in the tree represent actions
+\begin{figure}[h]
+	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/MapToTree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Sampling}
+\begin{figure}[h]
+	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/TicTacToeTreeSampling.pdf}
+	\centering
+\end{figure}
 \end{frame}
 
 \begin{frame}
-\frametitle{TicTacToe Example}
+\frametitle{MCTS Four Steps}
+Stuff about the four steps
+\end{frame}
+
+%%%%%%%%%%%%%%%Four Step full diagram begins%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=8.5cm]{Diagrams/TicTacToeTree.pdf}
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessWhole.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessOneOne.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessOneTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessOneThree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessThree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessFourOne.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessFourTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessFourThree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessFourFour.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/FourSteps/MCTSFourStepProcessWhole.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%Four Step diagram ends%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%First example walkthrough%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneOneOne.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneOneTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneOneThree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneThree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneFourOne.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneFourTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneFourThree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneFourFour.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%Second example walkthrough%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoOneOne.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoOneTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoOneThree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoThree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourOne.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourThree.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Four Steps Diagram}
+\begin{figure}[h]
+	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourFour.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%Choosing move transition%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+\frametitle{Choosing a Move}
+\begin{figure}[h]
+	\includegraphics[width=6cm]{Diagrams/MakeAMove/MakeAMoveOne.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Choosing a Move}
+\begin{figure}[h]
+	\includegraphics[width=6cm]{Diagrams/MakeAMove/MakeAMoveSubTrees.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Choosing a Move}
+\begin{figure}[h]
+	\includegraphics[width=6cm]{Diagrams/MakeAMove/MakeAMoveTwo.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Choosing a Move}
+\begin{figure}[h]
+	\includegraphics[width=6cm]{Diagrams/MakeAMove/MakeAMoveThree.pdf}
 	\centering
 \end{figure}
 \end{frame}
