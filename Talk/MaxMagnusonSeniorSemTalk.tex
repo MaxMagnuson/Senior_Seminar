@@ -41,6 +41,7 @@
 % header/footer depending on your theme.
 \institute[U of Minn, Morris]
 {
+  Senior Seminar \\ 
   Division of Science and Mathematics \\
   University of Minnesota, Morris \\
   Morris, Minnesota, USA
@@ -84,7 +85,7 @@
 
 \begin{frame}
 \frametitle{Kasparov vs Deep Blue}
-Great display of artifical intelligence
+Great display of artifical intelligence \\
 Techniques employed by IBM
 \begin{itemize}
 	\item Brute force deterministic approach
@@ -94,6 +95,7 @@ Limitation
 \begin{itemize}
 	\item scalability into larger search spaces
 \end{itemize}
+Monte Carlo tree search (MCTS) is an alternative method
 \end{frame}
 
 \begin{frame}
@@ -108,16 +110,36 @@ Limitation
 	\item Combines random sampling and game trees
 	\item Probabilistic not deterministic
 	\item Useful for problems with larger search spaces
-	\begin{itemize}
-		\item Game board for Chess: 8x8
-		\item Possible games of Chess: 10\textsuperscript{120}
-		\item Game board for Go: 19x19
-		\item Possible games of Go: 10\textsuperscript{761}
-\end{itemize}
 \end{itemize}
 \end{frame}
 
-\section{Background}
+\begin{frame}
+\frametitle{Two MCTS Applications}
+Go
+\begin{itemize}
+	\item Board game about positional advantage
+	\item Game board for Chess: 8x8
+	\item Possible games of Chess: 10\textsuperscript{120}
+	\item Game board for Go: 19x19
+	\item Possible games of Go: 10\textsuperscript{761}
+\end{itemize}
+Narrative generation
+\begin{itemize}
+	\item Useful Applications
+	\begin{itemize}
+		\item Video game replay value
+		\item educational applications
+	\end{itemize}
+	\item The search space scales with the number of characters, items, locations, and actions
+\end{itemize}
+\end{frame}
+
+\section{Naive MCTS Implementation}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents[currentsection]
+\end{frame}
 
 \begin{frame}[fragile]
 \frametitle{TicTacToe Diagram}
@@ -485,7 +507,7 @@ What happens when we need to choose a move?
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Upper Confidence Bound}
+\frametitle{Upper Confidence Bound Applied to Trees (UCT)}
 \[
 	UCT(node)
 	{=}
@@ -498,10 +520,75 @@ What happens when we need to choose a move?
 \begin{itemize}
 	\item W represents the number of simulated wins
 	\item N represents the total number of simulations
+	\item C is an experimental constant
+	\item Used during tree traversal
+	\item Balances exploration vs exploitation
 \end{itemize}
 \end{frame}
 
 \section{Applying MCTS to Go}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents[currentsection]
+\end{frame}
+
+\begin{frame}
+\frametitle{MCTS applied to Go}
+What variations can we make specific to Go? \\
+In Go each player takes turn placing pieces on a game board
+\begin{itemize}
+	\item How much does the order of these moves matter?
+	\item Can we use this to improve MCTS in the context of Go?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Tree Redundancy}
+\begin{figure}[h]
+	\includegraphics[width=11cm]{Diagrams/TicTacToe/MoveOrderNotMattering.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Rapid Action Value Estimate (RAVE)}
+\begin{itemize}
+	\item Takes advantage of tree redundancy
+	\item Stores the value of a move with in a subtree at each node
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{RAVE Diagram}
+\begin{figure}[h]
+	\includegraphics[width=8.5cm]{Diagrams/Rave/RAVEDiagram.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{RAVE}
+\begin{itemize}
+	\item Very powerful approach
+	\item Each simulation provides us with more information
+	\item This approach is used by the top computer Go programs
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Results}
+\begin{itemize}
+	\item Deterministic approaches could hardly defeat low level amateurs
+	\item Computer Go programs use RAVE with MCTS
+	\begin{itemize}
+		\item MoGo
+		\item Crazy Stone
+	\end{itemize}
+	\item Can compete against top pros in 9x9 Go
+	\item Can compete against top pros in handicapped 19x19 Go
+\end{itemize}
+\end{frame}
 
 \section{Applying MCTS to Narrative Generation}
 
