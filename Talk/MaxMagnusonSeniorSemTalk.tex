@@ -9,7 +9,8 @@
 \usepackage[english]{babel}
 \usepackage[latin1]{inputenc}
 \usepackage{times}
-\usepackage[T1]{fontenc} 
+\usepackage[T1]{fontenc}
+\usepackage{mathtools}
 % Or whatever. Note that the encoding and the font should match. If T1
 % does not look nice, try deleting the line with the fontenc.
 \usepackage{amsmath}
@@ -72,20 +73,47 @@
 
 \section{Introduction}
 
+%cite image http://www.britannica.com/EBchecked/topic/155485/Deep-Blue
+\begin{frame}[fragile]
+\frametitle{Kasparov vs Deep Blue}
+\begin{figure}
+	\includegraphics[height=5.5cm]{Diagrams/KasparovDeepBlue.jpg}
+	\centering
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Kasparov vs Deep Blue}
+Great display of artifical intelligence
+Techniques employed by IBM
+\begin{itemize}
+	\item Brute force deterministic approach
+	\item human knowledge
+\end{itemize}
+Limitation
+\begin{itemize}
+	\item scalability into larger search spaces
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[] 
+\end{frame}
+
 \begin{frame}
 \frametitle{Monte Carlo Tree Search (MCTS)}
 %cite british Go organisation http://www.britgo.org/learners/chessgo.html
 \begin{itemize}
-	\item AI algorithm
-	\item Populates tree by randomly sampling simulations
+	\item Combines random sampling and game trees
 	\item Probabilistic not deterministic
-	\item Useful for problems with large search spaces
+	\item Useful for problems with larger search spaces
 	\begin{itemize}
-		\item Possible games of Chess: 10\textsuperscript{120}
 		\item Game board for Chess: 8x8
-		\item Possible games of Go: 10\textsuperscript{761}
+		\item Possible games of Chess: 10\textsuperscript{120}
 		\item Game board for Go: 19x19
-	\end{itemize}
+		\item Possible games of Go: 10\textsuperscript{761}
+\end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -124,7 +152,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{TicTacToeDiagram}
+\frametitle{TicTacToe Diagram}
 \begin{figure}[h]
 	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/TicTacToeTreeExtended.pdf}
 	\centering
@@ -132,9 +160,9 @@
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{TicTacToeDiagram}
+\frametitle{TicTacToe Diagram}
 \begin{figure}[h]
-	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/TicTacToeTreeExtendedLabeled.pdf}
+	\includegraphics[width=10cm]{Diagrams/TicTacToe/TicTacToeTreeExtendedLabeled.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -142,7 +170,7 @@
 \begin{frame}[fragile]
 \frametitle{Tree Structure}
 \begin{figure}[h]
-	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/MapToTree.pdf}
+	\includegraphics[width=10cm]{Diagrams/TicTacToe/MapToTree.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -153,11 +181,6 @@
 	\includegraphics[width=8.5cm]{Diagrams/TicTacToe/TicTacToeTreeSampling.pdf}
 	\centering
 \end{figure}
-\end{frame}
-
-\begin{frame}
-\frametitle{MCTS Four Steps}
-Stuff about the four steps
 \end{frame}
 
 %%%%%%%%%%%%%%%Four Step full diagram begins%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -257,7 +280,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneOneOne.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortOneOneOne.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -266,7 +289,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneOneTwo.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortOneOneTwo.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -275,7 +298,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneOneThree.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortOneOneThree.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -284,7 +307,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneTwo.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortOneTwo.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -292,7 +315,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneThree.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortOneThree.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -300,7 +323,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneFourOne.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortOneFourOne.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -308,7 +331,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneFourTwo.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortOneFourTwo.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -316,7 +339,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneFourThree.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortOneFourThree.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -324,7 +347,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortOneFourFour.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortOneFourFour.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -334,7 +357,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoOneOne.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortTwoOneOne.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -342,7 +365,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoOneTwo.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortTwoOneTwo.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -350,7 +373,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoOneThree.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortTwoOneThree.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -358,7 +381,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoTwo.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortTwoTwo.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -366,7 +389,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoThree.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortTwoThree.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -374,7 +397,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourOne.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourOne.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -382,7 +405,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourTwo.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourTwo.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -390,7 +413,7 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourThree.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourThree.pdf}
 	\centering
 \end{figure}
 \end{frame}
@@ -398,12 +421,23 @@ Stuff about the four steps
 \begin{frame}[fragile]
 \frametitle{Four Steps Diagram}
 \begin{figure}[h]
-	\includegraphics[width=4.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourFour.pdf}
+	\includegraphics[width=6.5cm]{Diagrams/MCTSShort/MCTSShortTwoFourFour.pdf}
 	\centering
 \end{figure}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%Choosing move transition%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{What Happens When We Choose a Move?}
+Now we have:
+\begin{itemize}
+	\item{A tree structure}
+	\item{A method of generating the tree}
+\end{itemize}
+What happens when we need to choose a move?
+\end{frame}
+
 
 \begin{frame}[fragile]
 \frametitle{Choosing a Move}
@@ -435,6 +469,36 @@ Stuff about the four steps
 	\includegraphics[width=6cm]{Diagrams/MakeAMove/MakeAMoveThree.pdf}
 	\centering
 \end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Exploration vs Exploitation}
+\begin{itemize}
+	\item We might overlook better paths
+	\item Exploration vs Exploitation
+	\begin{itemize}
+		\item Exploration looks at more options
+		\item Exploitation focuses on the most promising path
+	\end{itemize}
+	\item Must find a balance between the two
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Upper Confidence Bound}
+\[
+	UCT(node)
+	{=}
+	\alert{\underbrace{\color{black} \frac{W(node)}{N(node)}}_
+		{{\text{Value of the Node}}}}
+	{+}
+	\alert{\underbrace{\color{black} \sqrt[C]{\frac{ln(N(parentNode))}{N(node)}}}_
+		{\text{Exploration Bonus}}}
+\]
+\begin{itemize}
+	\item W represents the number of simulated wins
+	\item N represents the total number of simulations
+\end{itemize}
 \end{frame}
 
 \section{Applying MCTS to Go}
