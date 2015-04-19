@@ -11,6 +11,7 @@
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{mathtools}
+\usepackage{array}
 %\usepackage[colorinlistoftodos]{todonotes}
 
 %%%%% Uncomment the following line and comment out the previous one
@@ -207,6 +208,7 @@ The authors compared their implementation of the MCTS algorithm to three differe
 These four algorithms were compared given a low budget of 100 thousand nodes and a high budget of three million nodes. The user goals for this narrative are at least two actors are killed and the murderer is arrested. Each algorithm was run three times and the score of the resulting narratives were averaged. Here is a table comparing the results: 
 
 \begin{table}[h]
+\centering
 	\begin{tabular}{ c | c | c | c | c |}
 	\cline{2-5}	 
 	 & MCTS & Breadth-first & Depth-first & Best-first \\ \hline

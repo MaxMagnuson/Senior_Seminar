@@ -85,7 +85,7 @@
 
 \begin{frame}
 \frametitle{Kasparov vs Deep Blue}
-Great display of artifical intelligence \\
+Great display of artifical intelligence (AI) \\
 Techniques employed by IBM
 \begin{itemize}
 	\item Brute force deterministic approach
@@ -555,6 +555,7 @@ In Go each player takes turn placing pieces on a game board
 \frametitle{Rapid Action Value Estimate (RAVE)}
 \begin{itemize}
 	\item Takes advantage of tree redundancy
+	\item Moves have no contextual dependencies
 	\item Stores the value of a move with in a subtree at each node
 \end{itemize}
 \end{frame}
@@ -572,15 +573,34 @@ In Go each player takes turn placing pieces on a game board
 \begin{itemize}
 	\item Very powerful approach
 	\item Each simulation provides us with more information
-	\item This approach is used by the top computer Go programs
+	\item Sometimes we do need contextual dependencies
+	\begin{itemize}
+		\item Example: Close tactical battles
+	\end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Results}
+\frametitle{MC RAVE}
+\begin{itemize}
+	\item Combines MCTS values with RAVE values
+	\item Uses a weighted average
+	\item Favors RAVE values when fewer simulations have been performed
+	\begin{itemize}
+		\item Contextual dependencies are unknown
+	\end{itemize}
+	\item Favors MCTS values when more simulations have been performed
+	\begin{itemize}
+		\item Contextual dependencies are more developed
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Go Results}
 \begin{itemize}
 	\item Deterministic approaches could hardly defeat low level amateurs
-	\item Computer Go programs use RAVE with MCTS
+	\item Computer Go programs use MC RAVE
 	\begin{itemize}
 		\item MoGo
 		\item Crazy Stone
@@ -592,7 +612,160 @@ In Go each player takes turn placing pieces on a game board
 
 \section{Applying MCTS to Narrative Generation}
 
-\section{Conclusion} 
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents[currentsection]
+\end{frame}
+
+\begin{frame}
+\frametitle{Narrative Generation}
+Kartal et al applied MCTS to Narrative Generation
+\begin{itemize}
+	\item Crime story
+	\item Goals and set up of the story set by the user
+	\begin{itemize}
+		\item Example Setup: The detective starts in his office
+		\item Example Goal: The killer must be arrested
+	\end{itemize}
+\end{itemize}
+Unlike Go and other games
+\begin{itemize}
+	\item Slightly different tree structure
+	\item Evaluation function needed
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Actions}
+\textbf{Move(A, P):} A moves to place P. \\
+\textbf{Kill(A, B):} B's health to zero(dead). \\
+\textbf{Earthquake(P):} An earthquake strikes at place P. This causes people at P to die (health=0), items to be stuck, and place P to collapse.
+\begin{itemize}
+	\item Actions drive the story
+	\item Different actions take the place of moves as nodes
+	\item Set threshold during simulation
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Evaluation function}
+\begin{itemize}
+	\item Method of giving nodes value
+	\item Ensures stories are interesting
+	\item Incorporates believability and goal completion
+	\begin{itemize}
+		\item Actions are believable based on context
+		\begin{itemize}
+			\item Example: Inspector searches for clues
+			\item Example: Character A kills Character B
+		\end{itemize}
+		\item Important to complete the goals set by the user
+	\end{itemize}
+	\item The value is between 0 and 1
+	\item Product of every action in a story
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Narrative Generation Test}
+MCTS compared against three deterministic algorithms
+\begin{itemize}
+	\item Breadth-first search
+	\begin{itemize}
+		\item Expands tree level by level
+	\end{itemize}
+	\item Depth-first search
+	\begin{itemize}
+		\item Expands tree down one path at a time
+	\end{itemize}
+	\item Best-first search
+	\begin{itemize}
+		\item Expands tree by choosing the node with the highest estimated value
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Test Conditions}
+Goals for the narrative:
+\begin{itemize}
+	\item At least two people are killed
+	\item The killer is arrested
+\end{itemize}
+Each algorithm was given two budgets
+\begin{itemize}
+	\item 100,000 nodes
+	\item 3 million nodes
+\end{itemize}
+Each algorithm ran three times \\
+The score of the narratives were averaged
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Results}
+\begin{table}[h]
+\centering
+	\begin{tabular}{ c | c | c | c | c |}
+	\cline{2-5}	 
+	 & MCTS & Breadth-first & Depth-first & Best-first \\ \hline
+	\multicolumn{1}{|p{1.5cm}|}{Low Budget} & 0.07 & 0.05 & <0.001 & 0.005 \\ \hline
+	\multicolumn{1}{|p{1.5cm}|}{High Budget} & 0.9 & 0.06 & <0.01 & <0.01 \\ \hline
+	\end{tabular}
+\end{table}
+\begin{itemize}
+	\item MCTS performed the best in both
+	\item Breadth-first came the closest out of the deterministic algorithms
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{High Scoring Example Story From MCTS}
+\begin{figure}[h]
+\begin{tabular}{|p{10cm}|}
+\hline
+Alice picked up a vase from her house. Bob picked up a rifle from his house. Bob went to Alice's house. While there, greed got the better of him and Bob stole Alice's vase! This made Alice furious. Alice pilfered Bob's vase! This made Bob furious. Bob slayed Alice with a rifle! Bob fled to downtown. Bob executed Inspector Lestrade with a rifle! Charlie took a baseball bat from Bob's house. Sherlock went to Alice's house. Sherlock searched Alice's house and found a clue about the recent crime. Bob fled to Alice's house. Sherlock wrestled the rifle from Bob! This made Bob furious. Sherlock performed a citizen's arrest of Bob with his rifle and took Bob to jail. \\ \hline
+\end{tabular}
+\centering
+\label{fig:GoodStory}
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Low Scoring Example from Breadth-First}
+\begin{figure}[h]
+\begin{tabular}{|p{10cm}|}
+\hline
+Sherlock moved to Alice's House. An Earthquake occurred at Alice's House! Sherlock and Alice both died due to the earthquake. \\ \hline
+\end{tabular}
+\centering
+\label{fig:BadStory}
+\end{figure}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents[currentsection]
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion}
+\begin{itemize}
+	\item MCTS successful in extending AI capabilities
+	\item Tackles problems with larger search spaces
+	\item Effective in Go and Narrative Generation
+	\item Applicable to other problems
+	\begin{itemize}
+		\item Can outperform humans in many puzzles
+		\item Real time games
+		\item Super Mario Brothers
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Done}
+ 
 
 \end{document}
 
