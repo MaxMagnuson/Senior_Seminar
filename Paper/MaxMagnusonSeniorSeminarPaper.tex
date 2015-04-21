@@ -12,6 +12,7 @@
 \usepackage{graphicx}
 \usepackage{mathtools}
 \usepackage{array}
+%\usepackage{multirow}
 %\usepackage[colorinlistoftodos]{todonotes}
 
 %%%%% Uncomment the following line and comment out the previous one
@@ -58,18 +59,18 @@ In 1997 the field of artificial intelligence (AI) experienced a monumental break
 
 While computers are capable of outplaying the top players of chess, the deterministic strategies that they employ do not scale well into larger search spaces. When there are too many options available, the deterministic nature of these algorithms take too long evaluating every option and quickly are overwhelmed. Two applications with very large search spaces are Go which is a board game about positional advantage and narrative generation. Go has many more moves available to the player than in chess, and each of those moves can have major effects 50 to 100 moves ahead~\cite{RAVEinGo}. This makes the game trees in Go much wider and deeper which vastly increases the complexity. 
 
-Narrative generation has some of the same problems. As the number of characters, items, locations, and actions increase, the search space grows tremendously. An algorithm needs access to plenty of these agents to produce interesting narratives, but there are just too many possible interactions for deterministic algorithms.
+Narrative generation has some of the same problems as in Go. As the number of characters, items, locations, and actions increase, the search space grows tremendously. An algorithm needs access to plenty of these agents to produce interesting narratives, but there are just too many possible interactions for deterministic algorithms.
 
 In order to address problems with larger search spaces, we must turn to alternative methods. Monte Carlo tree search (MCTS) has had a lot of success in Go and in other applications~\cite{TheGrandChallenge}~\cite{ActionSelection}. MCTS eschews the typical brute force tree searching methods, and utilizes statistical sampling instead. This makes MCTS a probabilistic algorithm. As such, it will not always choose the best action, but it still performs reasonably well given sufficient time and memory. MCTS performs lightweight simulations that randomly select actions. These simulations are used to selectively grow a game tree over a large number of iterations. Since these simulations do not take long to perform, it allows MCTS to explore search spaces quickly. This is what gives MCTS the advantage over deterministic methods in large search spaces.
 
 Since MCTS is capable of surmounting problems with vast search spaces, AI can now perform well in new areas. In 2009, for the first time ever, a computer defeated a top professional Go player in a 9x9 game~\cite{TheGrandChallenge}. It took twelve years for AI to advance from defeating Garry Kasparov to achieving its first major victory in Go, and it was only on the smallest board that Go is played on. While not as publicized as deep blue's victory, it displays the power of MCTS.
 
-MCTS has been growing in popularity in recent years, and it demonstrates a lot of promise. In this paper, we will examine the naive implementation of MCTS, its applications to Go, and its applications to narrative generation.  
+MCTS has been growing in popularity in recent years, and it demonstrates a lot of promise. In this paper, we will examine the traditional implementation of MCTS, its applications to Go, and its applications to narrative generation.  
 \section{Background}
-MCTS combines the random sampling of traditional Monte Carlo methods with tree searching. Monte Carlo methods use repeated random sampling to obtain results. In MCTS, the random sampling is in the form of random simulations which are used to expand the game tree. MCTS is an iterative algorithm that traverses and expands the tree on each iteration. The tree traversal uses statistical processes, and the MCTS algorithm relies on the convergence of the traversal to reliably choose the best move. The traversal is in convergence when the same path is selected during each iteration. MCTS is a probabilistic method that does not always find the optimal move, but it has reasonably high success at choosing moves that will lead to greater chances of winning.
+MCTS combines the random sampling of traditional Monte Carlo methods with tree searching. Monte Carlo methods use repeated random sampling to obtain results. In MCTS, the random sampling is in the form of random simulations which are used to expand the game tree. The game tree is then used to decide the next move. MCTS grows the game tree iteratively. With each iteration, the game tree is traversed and expanded. Over time, the game tree will converge. This means that the same path in the tree is traversed in each iteration. This indicates MCTS has found a move that leads to the most number of simulated wins from the current state of the game. Because of the random nature of this process, MCTS is a probabilistic method. MCTS does not always find the best move, but it has reasonable success at choosing moves that lead to greater chances of winning.
 
 \subsection{The Tree Structure}\label{sec:TreeStructure}
-MCTS encodes the game state and its potential moves into a tree. Each node in the tree represents a potential game state with the root node representing the current state. Each edge represents a legal move that can be made from one game state to another. In other words, it represents the transformation from the parent node to the child node. Any node may have as many children as there are legal moves from the game state for which it represents. For example, at the start of a game of TicTacToe the root node may have up to nine children, one for each possible move. Each following child can only have one less child than its parent since the previous moves are no longer available as options.
+MCTS encodes the game state and its potential moves into a tree. Each node in the tree represents a potential game state with the root node representing the current state. Each edge represents a legal move that can be made from one game state to another. In other words, it represents the transformation from the parent node to the child node. Any node may have as many children as there are legal moves from the game state for which it represents. 
 
 \begin{figure}[h]
 \includegraphics[width=8cm]{TicTacToeTree.pdf}
@@ -77,6 +78,8 @@ MCTS encodes the game state and its potential moves into a tree. Each node in th
 \caption{a small portion of a tree representing TicTacToe}
 \label{fig:TicTacToe}
 \end{figure}
+
+For example, at the start of a game of TicTacToe the root node may have up to nine children, one for each possible move. Each following child can only have one less child than its parent since the previous moves are no longer available as options.
 
 Figure \ref{fig:TicTacToe} represents the top portion of a tree for the game TicTacToe. The AI is making the first move, so the root node is the first game board. Each child node represents the potential moves that can be made from the current game state. It is important to note that this figure is a simplification, and that it only shows three of the nine child nodes. Once MCTS decides which move to make, the chosen child node becomes the new root node. For example, if MCTS chose the left child in figure \ref{fig:TicTacToe}, then that child becomes the new root node and its siblings would be discarded.
 
@@ -152,7 +155,7 @@ The RAVE approach is very powerful and allows us to retrieve much more informati
 \subsection{MC RAVE}
 The RAVE approach is very useful and efficient, but it can sometimes select an incorrect move~\cite{RAVEinGo}. In Go, when the players have close tactical battles, the sequencing of the moves become very important. In this situation, we cannot treat the moves as AMAF. We still need the contextual dependencies of the MCTS approach.
 
-MC RAVE combines the naive MCTS algorithm and the RAVE approach into one algorithm. MC RAVE stores the values of each node from MCTS and the value of each move from RAVE in the tree structure. MC RAVE takes a weighted average of the two values to determine which node to choose in traversal~\cite{RAVEinGo}. When few simulations have been performed, the RAVE values are given more weight. In this case, RAVE is more accurate because the contextual dependencies of moves are less clear. When a lot of simulations have been performed, the MCTS values will be weighted more heavily. The MCTS values are given more weight because the contextual dependencies of the moves are more strongly developed and are more accurate overall.
+MC RAVE combines the traditional MCTS algorithm and the RAVE approach into one algorithm. MC RAVE stores the values of each node from MCTS and the value of each move from RAVE in the tree structure. MC RAVE takes a weighted average of the two values to determine which node to choose in traversal~\cite{RAVEinGo}. When very few simulations have been performed, the RAVE values are given more weight. In this case, RAVE is more accurate because the contextual dependencies of moves are less developed. When a lot more simulations have been performed, the MCTS values will be weighted more heavily. The MCTS values are given more weight in this case because the contextual dependencies of the moves are more strongly developed and are more accurate overall.
 \subsection{Go Results}
 AI that use more traditional approaches have had very little success playing Go. The deterministic approaches struggle to defeat even low rank amateurs. Now with new Go programs like MoGo and Crazy Stone implementing MC RAVE, AI can compete with top professionals in 9x9 Go~\cite{RAVEinGo}. Not only that, but those programs can even compete against the top pros in handicap games of 19x19 Go. Handicap games let one player start with some number of pieces on the board. That is an incredible feat taking into consideration the immense complexity of a 19x19 board.
 
@@ -180,7 +183,7 @@ In addition to encoding for an action, each node also keeps track of various att
 The researchers' method for tree generation uses a set threshold during the simulation step. The simulation ends when either the narrative has reached a certain length, or when the narrative accomplishes a sufficient percentage of goals. This differs from Go and other games because narratives do not have clear end states. This also means that narrative generation needs a different method of evaluation because the simulations do not simply end in a win or a loss. To address this, the researchers' implemented their own evaluation function, and its details are outlined in section \ref{sec:EvalFunction}. 
 
 \subsection{Evaluation Function}\label{sec:EvalFunction}
-The researchers decided they needed a function which considers both believability and goal completion in its evaluation of a narrative~\cite{Narrative}. These two measures are essential for making a quality narrative. A narrative could easily complete the goals defined by the user without being very believable, and a narrative could be very believable while not accomplishing any goals. Sometimes this results in one being sacrificed for the other. Maybe a long series of somewhat unbelievable actions are used for the sake of completing the goals of the narrative. While this outcome is not perfect, it is preferable over the two extremes.
+The researchers decided they needed a function which considers both believability and goal completion in its evaluation of a narrative~\cite{Narrative}. These two measures are essential for making a quality narrative. A narrative could easily complete the goals defined by the user without being very believable, and a narrative could be very believable while not accomplishing any goals. Sometimes this results in one measure being sacrificed for the other. For instance, maybe a long series of somewhat unbelievable actions are used for the sake of completing the goals of the narrative. While this outcome is not perfect, it is preferable over the two extremes.
 
 The believability of a narrative is determined by the mathematical product of the believability of all of the actions performed throughout the narrative. The believability of a certain action is determined based on its context within the current state of the narrative. This means that certain actions are more (or less) believable based on previous events or attributes: Character A killing character B is less believable if character A is not angry at character B. Character A looking for clues at character B's house is more believable given that character A is a detective. Each action has its own defined scale of believability ranging from 0 to 1~\cite{Narrative}. The exact details of the scale are outside the scope of this paper, but they can be referenced in the authors' paper~\cite{Narrative}.
 
@@ -201,17 +204,16 @@ The authors only allow their MCTS algorithm to plan out the narrative one step a
 The authors do note that this approach makes the algorithm no longer probabilistically complete. This means that it is possible that one of the pruned branches is preferable to the current path. Even with this flaw, the authors still found their algorithm to perform reasonably well~\cite{Narrative}.
 
 \subsection{Narrative Generation Results}
-The authors compared their implementation of the MCTS algorithm to three different deterministic tree search algorithms: breadth-first search, depth-first search, and best-first search~\cite{Narrative}. Breadth-first search expands each level of the tree before moving on to the next level. Depth-first search expands a tree until an end point is reached. At that point, it backtracks until it finds a new path to expand. Best-first search is a greedy algorithm that expands the tree by choosing nodes with the greatest value. In this case, it chooses the most believable nodes. Each of these algorithms should provide the optimal solution if given enough time and memory.
+The authors compared their implementation of the MCTS algorithm to three different deterministic tree search algorithms: breadth-first search, depth-first search, and best-first search~\cite{Narrative}. Breadth-first search expands each level of the tree before moving on to the next level. Depth-first search expands a tree until an end point is reached. At that point, it backtracks until it finds a new path to expand. Best-first search is a greedy algorithm that expands the tree by choosing the most believable nodes to complete the goals of the narrative. Each of these algorithms should provide the optimal solution if given enough time and memory.
 
 These four algorithms were compared given a low budget of 100 thousand nodes and a high budget of three million nodes. The user goals for this narrative are: at least two actors are killed and the murderer is arrested. Each algorithm was run three times and the score of the resulting narratives were averaged. Here is a table comparing the results: 
 
 \begin{table}[h]
 \centering
-	\begin{tabular}{ c | c | c | c | c |}
-	\cline{2-5}	 
+	\begin{tabular}{ m{0.45in} | m{0.45in} | m{0.45in} | m{0.45in} | m{0.45in} |}	 
 	 & MCTS & Breadth-first & Depth-first & Best-first \\ \hline
-	\multicolumn{1}{|p{1.05cm}|}{Low Budget} & 0.07 & 0.05 & <0.001 & 0.005 \\ \hline
-	\multicolumn{1}{|p{1.05cm}|}{High Budget} & 0.9 & 0.06 & <0.01 & <0.01 \\ \hline
+Low Budget & 0.07 & 0.05 & <0.001 & 0.005 \\ \hline
+High Budget & 0.9 & 0.06 & <0.01 & <0.01 \\ \hline
 	\end{tabular}
 	\caption[Table caption text]{average scores of the narratives from the different algorithms}
 \end{table}
@@ -240,8 +242,7 @@ Sherlock moved to Alice's House. An Earthquake occurred at Alice's House! Sherlo
 \label{fig:BadStory}
 \end{figure}
 
-Figure \ref{fig:BadStory} is one of the narratives produced by breadth-first search. While it does accomplish the goal of killing at least two characters, it fails to accomplish the more complex goal of arresting the murderer. This narrative is not very believable. Worse, it is not very interesting. Hardly anything happens in it. It ends after only three lines. It is clear which algorithm performed better just from reading the resulting narratives regardless of their scores. 
-
+Figure \ref{fig:BadStory} is one of the narratives produced by breadth-first search. While it does accomplish the goal of killing at least two characters, it fails to accomplish the more complex goal of arresting the murderer. This narrative is not very believable. Worse, it is not very interesting. Hardly anything happens in it. It ends after only three lines. It is clear which algorithm performed better just from reading the resulting narratives regardless of their scores.  
 \section{Conclusions}
 The Monte Carlo tree search algorithm has been very successful in extending the capabilities of AI. MCTS performs reasonably well on problems with vast search spaces, which were very difficult for previous algorithms. Before MCTS, AI struggled to defeat low rank amateurs in Go. Now with MCTS, AI can compete with high level pros~\cite{TheGrandChallenge}. Also, MCTS has demonstrated its effectiveness in generating narratives, another problem with vast search spaces~\cite{Narrative}.
 
