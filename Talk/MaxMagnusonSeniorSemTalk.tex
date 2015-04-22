@@ -114,25 +114,42 @@ Monte Carlo tree search (MCTS) is an alternative method
 \end{frame}
 
 \begin{frame}
-\frametitle{Two MCTS Applications}
+\frametitle{Applying MCTS to Go}
 Go
 \begin{itemize}
 	\item Board game about positional advantage
-	\item Game board for Chess: 8x8
-	\item Possible games of Chess: 10\textsuperscript{120}
-	\item Game board for Go: 19x19
-	\item Possible games of Go: 10\textsuperscript{761}
+	\item Game board for Chess:
+	\begin{itemize}
+		\item 8x8
+	\end{itemize}
+	\item Average possible configurations for a game of Chess: 
+	\begin{itemize}
+		\item 10\textsuperscript{120}
+	\end{itemize}
+	\item Game board for Go: 
+	\begin{itemize}
+		\item 19x19
+	\end{itemize}
+	\item Average possible configurations for a game of Go: 
+	\begin{itemize}
+		\item 10\textsuperscript{761}
+	\end{itemize}
 \end{itemize}
-Narrative generation
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Applying MCTS to Narrative Generation}
 \begin{itemize}
 	\item Useful Applications
 	\begin{itemize}
 		\item Video game replay value
-		\item educational applications
+		\item Educational applications
 	\end{itemize}
 	\item The search space scales with the number of characters, items, locations, and actions
 \end{itemize}
 \end{frame}
+
 
 \section{Naive MCTS Implementation}
 
@@ -944,6 +961,14 @@ Sherlock moved to Alice's House. An Earthquake occurred at Alice's House! Sherlo
 		\item Super Mario Brothers
 	\end{itemize}
 \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Any Questions?}
+\begin{figure}[h]
+	\includegraphics[width=7cm]{Diagrams/NESSuperMarioBros.png}
+	\centering
+\end{figure}
 \end{frame}
 
 \section{Done}
