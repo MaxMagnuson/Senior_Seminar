@@ -11,6 +11,7 @@
 \usepackage{times}
 \usepackage[T1]{fontenc}
 \usepackage{mathtools}
+\usepackage{array}
 % Or whatever. Note that the encoding and the font should match. If T1
 % does not look nice, try deleting the line with the fontenc.
 \usepackage{amsmath}
@@ -683,7 +684,7 @@ In Go each player takes turn placing pieces on a game board
 Kartal et al applied MCTS to Narrative Generation
 \begin{itemize}
 	\item Crime story
-	\item Goals and set up of the story set by the user
+	\item User defines the set up and goals for the story
 	\begin{itemize}
 		\item Example Setup: The detective starts in his office
 		\item Example Goal: The killer must be arrested
@@ -698,13 +699,26 @@ Unlike Go and other games
 
 \begin{frame}
 \frametitle{Actions}
-\textbf{Move(A, P):} A moves to place P. \\
-\textbf{Kill(A, B):} B's health to zero(dead). \\
-\textbf{Earthquake(P):} An earthquake strikes at place P. This causes people at P to die (health=0), items to be stuck, and place P to collapse.
 \begin{itemize}
 	\item Actions drive the story
-	\item Different actions take the place of moves as nodes
-	\item Set threshold during simulation
+	\item Actions are believable based on context
+		\begin{itemize}
+			\item Example: Inspector searches for clues
+			\item Example: Character A kills Character B
+		\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Example Actions}
+\textbf{Move(A, P):} A moves to place P. \\
+\textbf{Kill(A, B):} B's health to zero(dead). \\
+\textbf{Earthquake(P):} An earthquake strikes at place P.
+\begin{itemize}
+	\item Actions take the place of moves as nodes
+	\item No clear end state
+	\item The researchers used a set threshold during simulation
 \end{itemize}
 \end{frame}
 
@@ -712,18 +726,13 @@ Unlike Go and other games
 \frametitle{Evaluation function}
 \begin{itemize}
 	\item Method of giving nodes value
-	\item Ensures stories are interesting
 	\item Incorporates believability and goal completion
-	\begin{itemize}
-		\item Actions are believable based on context
-		\begin{itemize}
-			\item Example: Inspector searches for clues
-			\item Example: Character A kills Character B
-		\end{itemize}
-		\item Important to complete the goals set by the user
-	\end{itemize}
+	\item Ensures stories are interesting
+\end{itemize}
+Value(story) = Believability(story) * GoalCompletion(story) 
+\begin{itemize}
 	\item The value is between 0 and 1
-	\item Product of every action in a story
+	\item Believability Mathematical product of every action in a story
 \end{itemize}
 \end{frame}
 
@@ -732,17 +741,8 @@ Unlike Go and other games
 MCTS compared against three deterministic algorithms
 \begin{itemize}
 	\item Breadth-first search
-	\begin{itemize}
-		\item Expands tree level by level
-	\end{itemize}
 	\item Depth-first search
-	\begin{itemize}
-		\item Expands tree down one path at a time
-	\end{itemize}
 	\item Best-first search
-	\begin{itemize}
-		\item Expands tree by choosing the node with the highest estimated value
-	\end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -838,6 +838,14 @@ MCTS compared against three deterministic algorithms
 \end{figure}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Depth-First Search}
+\begin{figure}[h]
+	\includegraphics[width=2cm]{Diagrams/DepthFirst/DepthFirstSix.pdf}
+	\centering
+\end{figure}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% End Depth-First search %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -903,12 +911,11 @@ The score of the narratives were averaged
 \begin{frame}[fragile]
 \frametitle{Results}
 \begin{table}[h]
-\centering
-	\begin{tabular}{ c | c | c | c | c |}
-	\cline{2-5}	 
+	\centering
+	\begin{tabular}{ m{0.55in} | m{0.55in} | m{0.55in} | m{0.55in} | m{0.55in} |}	 
 	 & MCTS & Breadth-first & Depth-first & Best-first \\ \hline
-	\multicolumn{1}{|p{1.5cm}|}{Low Budget} & 0.07 & 0.05 & <0.001 & 0.005 \\ \hline
-	\multicolumn{1}{|p{1.5cm}|}{High Budget} & 0.9 & 0.06 & <0.01 & <0.01 \\ \hline
+Low Budget & 0.07 & 0.05 & <0.001 & 0.005 \\ \hline
+High Budget & 0.9 & 0.06 & <0.01 & <0.01 \\ \hline
 	\end{tabular}
 \end{table}
 \begin{itemize}
@@ -917,16 +924,14 @@ The score of the narratives were averaged
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]
-\frametitle{High Scoring Example Story From MCTS}
-\begin{figure}[h]
-\begin{tabular}{|p{10cm}|}
-\hline
-Alice picked up a vase from her house. Bob picked up a rifle from his house. Bob went to Alice's house. While there, greed got the better of him and Bob stole Alice's vase! This made Alice furious. Alice pilfered Bob's vase! This made Bob furious. Bob slayed Alice with a rifle! Bob fled to downtown. Bob executed Inspector Lestrade with a rifle! Charlie took a baseball bat from Bob's house. Sherlock went to Alice's house. Sherlock searched Alice's house and found a clue about the recent crime. Bob fled to Alice's house. Sherlock wrestled the rifle from Bob! This made Bob furious. Sherlock performed a citizen's arrest of Bob with his rifle and took Bob to jail. \\ \hline
-\end{tabular}
-\centering
-\label{fig:GoodStory}
-\end{figure}
+\begin{frame}
+\frametitle{Stories Produced by MCTS}
+\begin{itemize}
+	\item Stories from MCTS tended to be believable
+	\item Completed both user defined goals
+	\item Some Problems
+	\item Overall reasonable narratives
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
