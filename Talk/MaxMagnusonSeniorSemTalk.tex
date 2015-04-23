@@ -90,11 +90,11 @@ Great display of artifical intelligence (AI) \\
 Techniques employed by IBM
 \begin{itemize}
 	\item Brute force deterministic approach
-	\item human knowledge
+	\item Human knowledge
 \end{itemize}
 Limitation
 \begin{itemize}
-	\item scalability into larger search spaces
+	\item Scalability into larger search spaces
 \end{itemize}
 Monte Carlo tree search (MCTS) is an alternative method
 \end{frame}
@@ -106,9 +106,9 @@ Monte Carlo tree search (MCTS) is an alternative method
 
 \begin{frame}
 \frametitle{Monte Carlo Tree Search (MCTS)}
-%cite british Go organisation http://www.britgo.org/learners/chessgo.html
 \begin{itemize}
 	\item Combines random sampling and game trees
+	\item Lightweight random simulations
 	\item Probabilistic not deterministic
 	\item Useful for problems with larger search spaces
 \end{itemize}
@@ -116,6 +116,7 @@ Monte Carlo tree search (MCTS) is an alternative method
 
 \begin{frame}
 \frametitle{Applying MCTS to Go}
+%cite british Go organisation http://www.britgo.org/learners/chessgo.html
 Go
 \begin{itemize}
 	\item Board game about positional advantage
@@ -574,7 +575,7 @@ In Go each player takes turn placing pieces on a game board
 \begin{itemize}
 	\item Takes advantage of tree redundancy
 	\item Moves have no contextual dependencies
-	\item Stores the value of a move with in a subtree at each node
+	\item Stores the value of a move within a subtree at each node
 \end{itemize}
 \end{frame}
 
@@ -681,7 +682,7 @@ In Go each player takes turn placing pieces on a game board
 
 \begin{frame}
 \frametitle{Narrative Generation}
-Kartal et al applied MCTS to Narrative Generation
+Kartal et al. applied MCTS to Narrative Generation
 \begin{itemize}
 	\item Crime story
 	\item User defines the set up and goals for the story
@@ -731,8 +732,8 @@ Unlike Go and other games
 \end{itemize}
 Value(story) = Believability(story) * GoalCompletion(story) 
 \begin{itemize}
+	\item Believability is the mathematical product of every action in a story
 	\item The value is between 0 and 1
-	\item Believability Mathematical product of every action in a story
 \end{itemize}
 \end{frame}
 
@@ -958,7 +959,7 @@ Sherlock moved to Alice's House. An Earthquake occurred at Alice's House! Sherlo
 \begin{itemize}
 	\item MCTS successful in extending AI capabilities
 	\item Tackles problems with larger search spaces
-	\item Effective in Go and Narrative Generation
+	\item Effective in Go and narrative generation
 	\item Applicable to other problems
 	\begin{itemize}
 		\item Can outperform humans in many puzzles
